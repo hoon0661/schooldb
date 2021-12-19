@@ -4,8 +4,6 @@ import hoon.schooldb.models.Major;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import javax.persistence.Column;
-
 @Getter
 @AllArgsConstructor
 public class StudentRequestDto {

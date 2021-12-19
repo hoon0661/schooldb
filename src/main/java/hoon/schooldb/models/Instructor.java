@@ -1,5 +1,6 @@
 package hoon.schooldb.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import hoon.schooldb.dto.InstructorRequestDto;
 import hoon.schooldb.dto.StudentRequestDto;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +18,7 @@ import java.util.List;
 public class Instructor extends Timestamped{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -49,8 +51,9 @@ public class Instructor extends Timestamped{
     @Column(nullable = false)
     private boolean isAdmin;
 
-//    @OneToMany
-//    private List<Course> courses;
+    @JsonIgnore
+    @OneToMany(mappedBy = "instructor")
+    private List<Course> courses = new ArrayList<>();
 
     public Instructor(InstructorRequestDto requestDto){
         this.firstname = requestDto.getFirstname();
@@ -77,17 +80,4 @@ public class Instructor extends Timestamped{
         this.zipcode = requestDto.getZipcode();
     }
 
-//    public void addCourse(Course course){
-//        if(courses.contains(course)){
-//            throw new IllegalArgumentException("the course already exist in the course list.");
-//        }
-//        courses.add(course);
-//    }
-//
-//    public void deleteCourse(Course course){
-//        if(!courses.contains(course)){
-//            throw new IllegalArgumentException("the course does not exist in the course list.");
-//        }
-//        courses.remove(course);
-//    }
 }

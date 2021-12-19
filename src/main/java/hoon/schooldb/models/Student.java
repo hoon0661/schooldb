@@ -16,7 +16,7 @@ import java.util.List;
 @Getter
 public class Student extends Timestamped {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -73,20 +73,6 @@ public class Student extends Timestamped {
         this.city = requestDto.getCity();
         this.state = requestDto.getState();
         this.zipcode = requestDto.getZipcode();
-    }
-
-    public void addCourse(Course course){
-        if(courses.contains(course)){
-            throw new IllegalArgumentException("The course already exists in student's course list.");
-        }
-        courses.add(course);
-    }
-
-    public void deleteCourse(Course course){
-        if(!courses.contains(course)){
-            throw new IllegalArgumentException("The course does not exist in student's course list.");
-        }
-        courses.remove(course);
     }
 
 }

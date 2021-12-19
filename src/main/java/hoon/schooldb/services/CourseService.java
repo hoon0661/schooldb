@@ -2,6 +2,7 @@ package hoon.schooldb.services;
 
 import hoon.schooldb.dto.CourseRequestDto;
 import hoon.schooldb.models.Course;
+import hoon.schooldb.models.Instructor;
 import hoon.schooldb.models.Student;
 import hoon.schooldb.repositories.CourseRepository;
 import hoon.schooldb.repositories.StudentRepository;
@@ -16,6 +17,7 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final StudentService studentService;
+    private final InstructorService instructorService;
 
     public List<Course> getAllCourses(){
         return courseRepository.findAll();
@@ -44,6 +46,15 @@ public class CourseService {
         Student student = studentService.getStudent(studentId);
 
         course.enrollStudent(student);
+        return course;
+    }
+
+    @Transactional
+    public Course enrollInstructor(Long courseId, Long instructorId) {
+        Course course = getCourse(courseId);
+        Instructor instructor = instructorService.getInstructor(instructorId);
+
+        course.enrollInstructor(instructor);
         return course;
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 public class Course extends Timestamped{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -31,6 +31,10 @@ public class Course extends Timestamped{
     @ManyToMany
     @JoinTable(name = "student_course", joinColumns = @JoinColumn(name = "course_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
     private List<Student> students = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id", referencedColumnName = "id")
+    private Instructor instructor;
 
     public Course(CourseRequestDto requestDto){
         this.courseName = requestDto.getCourseName();
@@ -51,5 +55,9 @@ public class Course extends Timestamped{
             throw new IllegalArgumentException("Student has been already enrolled.");
         }
         students.add(student);
+    }
+
+    public void enrollInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 }
