@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Setter
@@ -48,6 +49,9 @@ public class Instructor extends Timestamped{
     @Column(nullable = false)
     private boolean isAdmin;
 
+//    @OneToMany
+//    private List<Course> courses;
+
     public Instructor(InstructorRequestDto requestDto){
         this.firstname = requestDto.getFirstname();
         this.lastname = requestDto.getLastname();
@@ -72,4 +76,18 @@ public class Instructor extends Timestamped{
         this.state = requestDto.getState();
         this.zipcode = requestDto.getZipcode();
     }
+
+//    public void addCourse(Course course){
+//        if(courses.contains(course)){
+//            throw new IllegalArgumentException("the course already exist in the course list.");
+//        }
+//        courses.add(course);
+//    }
+//
+//    public void deleteCourse(Course course){
+//        if(!courses.contains(course)){
+//            throw new IllegalArgumentException("the course does not exist in the course list.");
+//        }
+//        courses.remove(course);
+//    }
 }

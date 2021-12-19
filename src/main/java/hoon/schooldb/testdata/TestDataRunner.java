@@ -44,36 +44,35 @@ public class TestDataRunner implements ApplicationRunner {
             studentService.createStudent(studentRequestDto);
         }
 
+//        for(int i = 0; i < 10; i++){
+//            String firstname = "instructorFirstname" + (i + 1);
+//            String lastname = "instructorLastname" + (i + 1);
+//            Major major = Major.values()[new Random().nextInt(Major.values().length)];
+//            String address = "instructorAddress" + (i + 1);
+//            String city = "instructorCity" + (i + 1);
+//            String state = "instructorState" + (i + 1);
+//            String zipcode = "instructorZipcode" + (i + 1);
+//            String email = "instructorEmail" + (i + 1) + "@email.com";
+//            String phone = "instructorPhone" + (i + 1);
+//            boolean isAdmin = false;
+//            String instructorToken = Config.INSTRUCTOR_KEY;
+//            String adminToken = "";
+//            if(i == 9){
+//                isAdmin = true;
+//                adminToken = Config.ADMIN_KEY;
+//            }
+//
+//            InstructorRequestDto requestDto = new InstructorRequestDto(firstname, lastname, address, city, state, zipcode, major, email, phone, isAdmin, instructorToken, adminToken);
+//            instructorService.createInstructor(requestDto);
+//        }
+
         for(int i = 0; i < 10; i++){
             String courseName = "courseName" + (i + 1);
-            String instructor = "instructor" + (i + 1);
             int capacity = new Random().nextInt(40) + 11;
             String description = "description" + (i + 1);
 
-            CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, instructor, capacity, description);
+            CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
             courseService.createCourse(courseRequestDto);
-        }
-
-        for(int i = 0; i < 10; i++){
-            String firstname = "instructorFirstname" + (i + 1);
-            String lastname = "instructorLastname" + (i + 1);
-            Major major = Major.values()[new Random().nextInt(Major.values().length)];
-            String address = "instructorAddress" + (i + 1);
-            String city = "instructorCity" + (i + 1);
-            String state = "instructorState" + (i + 1);
-            String zipcode = "instructorZipcode" + (i + 1);
-            String email = "instructorEmail" + (i + 1) + "@email.com";
-            String phone = "instructorPhone" + (i + 1);
-            boolean isAdmin = false;
-            String instructorToken = Config.INSTRUCTOR_KEY;
-            String adminToken = "";
-            if(i == 9){
-                isAdmin = true;
-                adminToken = Config.ADMIN_KEY;
-            }
-
-            InstructorRequestDto requestDto = new InstructorRequestDto(firstname, lastname, address, city, state, zipcode, major, email, phone, isAdmin, instructorToken, adminToken);
-            instructorService.createInstructor(requestDto);
         }
     }
 

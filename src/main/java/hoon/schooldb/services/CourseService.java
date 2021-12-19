@@ -2,7 +2,9 @@ package hoon.schooldb.services;
 
 import hoon.schooldb.dto.CourseRequestDto;
 import hoon.schooldb.models.Course;
+import hoon.schooldb.models.Student;
 import hoon.schooldb.repositories.CourseRepository;
+import hoon.schooldb.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseService {
     private final CourseRepository courseRepository;
+    private final StudentService studentService;
 
     public List<Course> getAllCourses(){
         return courseRepository.findAll();
@@ -32,6 +35,15 @@ public class CourseService {
     public Course updateCourse(Long id, CourseRequestDto requestDto){
         Course course = courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID does not exist."));
         course.update(requestDto);
+        return course;
+    }
+
+    @Transactional
+    public Course enrollStudent(Long courseId, Long studentId){
+        Course course = getCourse(courseId);
+        Student student = studentService.getStudent(studentId);
+
+        course.enrollStudent(student);
         return course;
     }
 }
