@@ -1,0 +1,23 @@
+body{
+    font-family: sans-serif;
+}
+#tables {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%
+}
+td {
+  border: 2px solid black;
+    padding: 6px;
+
+}
+table {
+  border-collapse: collapse;
+    width: 50%;
+}
+
+tr:nth-child(even) {
+  background-color: lightgrey;
+}

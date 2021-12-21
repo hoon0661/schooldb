@@ -2,7 +2,6 @@ package hoon.schooldb.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hoon.schooldb.dto.InstructorRequestDto;
-import hoon.schooldb.dto.StudentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
