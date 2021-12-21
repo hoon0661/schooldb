@@ -28,8 +28,8 @@ public class TestDataRunner implements ApplicationRunner {
 
 
     @Override
-    public void run(ApplicationArguments args) throws Exception{
-        for(int i = 0; i < 50; i++){
+    public void run(ApplicationArguments args) throws Exception {
+        for (int i = 0; i < 200; i++) {
             String firstname = "studentFirstname" + (i + 1);
             String lastname = "studentLastname" + (i + 1);
             Major major = Major.values()[new Random().nextInt(Major.values().length)];
@@ -44,7 +44,7 @@ public class TestDataRunner implements ApplicationRunner {
             studentService.createStudent(studentRequestDto);
         }
 
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 50; i++) {
             String firstname = "instructorFirstname" + (i + 1);
             String lastname = "instructorLastname" + (i + 1);
             Major major = Major.values()[new Random().nextInt(Major.values().length)];
@@ -57,7 +57,7 @@ public class TestDataRunner implements ApplicationRunner {
             boolean isAdmin = false;
             String instructorToken = Config.INSTRUCTOR_KEY;
             String adminToken = "";
-            if(i == 9){
+            if (i == 9) {
                 isAdmin = true;
                 adminToken = Config.ADMIN_KEY;
             }
@@ -66,7 +66,7 @@ public class TestDataRunner implements ApplicationRunner {
             instructorService.createInstructor(requestDto);
         }
 
-        for(int i = 0; i < 10; i++){
+        for (int i = 0; i < 100; i++) {
             String courseName = "courseName" + (i + 1);
             int capacity = new Random().nextInt(40) + 11;
             String description = "description" + (i + 1);

@@ -7,6 +7,10 @@ import hoon.schooldb.models.Student;
 import hoon.schooldb.repositories.CourseRepository;
 import hoon.schooldb.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,29 +23,33 @@ public class CourseService {
     private final StudentService studentService;
     private final InstructorService instructorService;
 
-    public List<Course> getAllCourses(){
-        return courseRepository.findAll();
+    public Page<Course> getAllCourses(int page, int size, String sortBy, boolean isAsc) {
+        page = page - 1;
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return courseRepository.findAll(pageable);
     }
 
-    public Course getCourse(Long id){
+    public Course getCourse(Long id) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID does not exist."));
         return course;
     }
 
-    public Course createCourse(CourseRequestDto requestDto){
+    public Course createCourse(CourseRequestDto requestDto) {
         Course course = new Course(requestDto);
         return courseRepository.save(course);
     }
 
     @Transactional
-    public Course updateCourse(Long id, CourseRequestDto requestDto){
+    public Course updateCourse(Long id, CourseRequestDto requestDto) {
         Course course = courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID does not exist."));
         course.update(requestDto);
         return course;
     }
 
     @Transactional
-    public Course enrollStudent(Long courseId, Long studentId){
+    public Course enrollStudent(Long courseId, Long studentId) {
         Course course = getCourse(courseId);
         Student student = studentService.getStudent(studentId);
 
