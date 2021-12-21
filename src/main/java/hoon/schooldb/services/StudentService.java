@@ -4,6 +4,7 @@ import hoon.schooldb.dto.StudentRequestDto;
 import hoon.schooldb.models.Student;
 import hoon.schooldb.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,12 +18,12 @@ import java.util.List;
 public class StudentService {
     private final StudentRepository studentRepository;
 
-    public List<Student> getAllStudents(int page, int size, String sortBy, boolean isAsc) {
+    public Page<Student> getAllStudents(int page, int size, String sortBy, boolean isAsc) {
         page = page - 1;
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
-        return studentRepository.findAll();
+        return studentRepository.findAll(pageable);
     }
 
     public Student getStudent(Long id) {
