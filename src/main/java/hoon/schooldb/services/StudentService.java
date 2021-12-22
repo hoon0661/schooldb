@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -44,5 +45,18 @@ public class StudentService {
         Student student = studentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID does not exist."));
         student.update(requestDto);
         return student;
+    }
+
+    public List<Student> getSearchResult(String searchParam, String str) {
+        switch (searchParam) {
+            case "firstName":
+                return studentRepository.findByFirstnameIgnoreCaseStartingWith(str);
+            case "lastName":
+                return studentRepository.findByLastnameIgnoreCaseStartingWith(str);
+            case "major":
+                return studentRepository.findByMajorIgnoreCaseStartingWith(str);
+            default:
+                return new ArrayList<>();
+        }
     }
 }

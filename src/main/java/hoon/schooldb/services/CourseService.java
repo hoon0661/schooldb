@@ -5,7 +5,6 @@ import hoon.schooldb.models.Course;
 import hoon.schooldb.models.Instructor;
 import hoon.schooldb.models.Student;
 import hoon.schooldb.repositories.CourseRepository;
-import hoon.schooldb.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,5 +64,14 @@ public class CourseService {
 
         course.enrollInstructor(instructor);
         return course;
+    }
+
+    public List<Course> getSearchResult(String searchParam, String str) {
+        if (searchParam.equals("courseName")) {
+            return courseRepository.findByCourseNameIgnoreCaseStartingWith(str);
+        } else {
+            return new ArrayList<>();
+        }
+
     }
 }

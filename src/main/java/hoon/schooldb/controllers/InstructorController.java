@@ -16,7 +16,11 @@ public class InstructorController {
     private final InstructorService instructorService;
 
     @GetMapping("/api/instructors")
-    public Page<Instructor> getAllInstructors(@RequestParam int page, @RequestParam int size, @RequestParam(defaultValue = "id") String sortBy, @RequestParam(defaultValue = "true") boolean isAsc) {
+    public Page<Instructor> getAllInstructors(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean isAsc) {
         return instructorService.getAllInstructors(page, size, sortBy, isAsc);
     }
 

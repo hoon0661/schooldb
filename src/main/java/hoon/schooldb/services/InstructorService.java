@@ -2,11 +2,8 @@ package hoon.schooldb.services;
 
 import hoon.schooldb.config.Config;
 import hoon.schooldb.dto.InstructorRequestDto;
-import hoon.schooldb.dto.StudentRequestDto;
 import hoon.schooldb.models.Instructor;
-import hoon.schooldb.models.Student;
 import hoon.schooldb.repositories.InstructorRepository;
-import hoon.schooldb.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -57,5 +55,18 @@ public class InstructorService {
         Instructor instructor = instructorRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID does not exist."));
         instructor.update(requestDto);
         return instructor;
+    }
+
+    public List<Instructor> getSearchResult(String searchParam, String str) {
+        switch (searchParam) {
+            case "firstName":
+                return instructorRepository.findByFirstnameIgnoreCaseStartingWith(str);
+            case "lastName":
+                return instructorRepository.findByLastnameIgnoreCaseStartingWith(str);
+            case "major":
+                return instructorRepository.findByMajorIgnoreCaseStartingWith(str);
+            default:
+                return new ArrayList<>();
+        }
     }
 }
