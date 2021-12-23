@@ -4,6 +4,7 @@ import hoon.schooldb.services.CourseService;
 import hoon.schooldb.services.InstructorService;
 import hoon.schooldb.services.StudentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,17 +21,24 @@ public class SearchController {
     private final StudentService studentService;
 
     @GetMapping("/api/search")
-    public List<?> search(@RequestParam String category, @RequestParam String searchParam, @RequestParam String str) {
+    public Page<?> search(
+            @RequestParam String category,
+            @RequestParam String searchParam,
+            @RequestParam String str,
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") boolean isAsc) {
         if (str.trim().length() == 0) {
-            return new ArrayList<>();
+            return null;
         }
 
         if (category.equals("course")) {
-            return courseService.getSearchResult(searchParam, str);
+            return courseService.getSearchResult(page, size, sortBy, isAsc, searchParam, str);
         } else if (category.equals("instructor")) {
-            return instructorService.getSearchResult(searchParam, str);
+            return instructorService.getSearchResult(page, size, sortBy, isAsc, searchParam, str);
         } else {
-            return studentService.getSearchResult(searchParam, str);
+            return studentService.getSearchResult(page, size, sortBy, isAsc, searchParam, str);
         }
     }
 }

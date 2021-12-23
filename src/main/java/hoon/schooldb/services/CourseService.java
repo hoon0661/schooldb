@@ -66,11 +66,15 @@ public class CourseService {
         return course;
     }
 
-    public List<Course> getSearchResult(String searchParam, String str) {
+    public Page<Course> getSearchResult(int page, int size, String sortBy, boolean isAsc, String searchParam, String str) {
+        page = page - 1;
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
         if (searchParam.equals("courseName")) {
-            return courseRepository.findByCourseNameIgnoreCaseStartingWith(str);
+            return courseRepository.findByCourseNameIgnoreCaseStartingWith(str, pageable);
         } else {
-            return new ArrayList<>();
+            return null;
         }
 
     }

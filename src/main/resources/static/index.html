@@ -14,16 +14,47 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-<div id="buttons">
-    <button id="courseBtn">Courses</button>
-    <button id="instructorBtn">Instructors</button>
-    <button id="studentBtn">Students</button>
-</div>
-<div id="tables">
-    <table id="courseList"></table>
-    <table id="studentList"></table>
-    <table id="instructorList"></table>
-    <div id="pagination" class="pagination"></div>
+<header>
+    <nav>
+        <ul>
+            <li><a role="button" id="courseBtn">Courses</a></li>
+            <li><a role="button" id="instructorBtn">Instructors</a></li>
+            <li><a role="button" id="studentBtn">Students</a></li>
+        </ul>
+
+        <ul>
+            <li>My Page</li>
+        </ul>
+    </nav>
+</header>
+
+<div id="container">
+    <div id="search-box">
+        <select name="category" id="category">
+            <option value="firstName">Firstname</option>
+            <option value="lastName">Lastname</option>
+            <option value="courseName">Course name</option>
+            <option value="major">Major</option>
+        </select>
+        <div id="search">
+            <input type="text" id="query" placeholder="Type to search..."/>
+            <div id="suggestion">
+                <li>sdjfklsjdfl</li>
+                <li>weirouvn</li>
+                <li>uewrbjksdf</li>
+            </div>
+        </div>
+    </div>
+    <div id="tables">
+        <table id="courseList"></table>
+        <table id="studentList"></table>
+        <table id="instructorList"></table>
+
+    </div>
+    <div class="pagination-box">
+        <div id="pagination" class="pagination"></div>
+    </div>
+
 </div>
 </body>
 </html>

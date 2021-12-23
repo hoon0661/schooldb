@@ -47,16 +47,20 @@ public class StudentService {
         return student;
     }
 
-    public List<Student> getSearchResult(String searchParam, String str) {
+    public Page<Student> getSearchResult(int page, int size, String sortBy, boolean isAsc, String searchParam, String str) {
+        page = page - 1;
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
         switch (searchParam) {
             case "firstName":
-                return studentRepository.findByFirstnameIgnoreCaseStartingWith(str);
+                return studentRepository.findByFirstnameIgnoreCaseStartingWith(str, pageable);
             case "lastName":
-                return studentRepository.findByLastnameIgnoreCaseStartingWith(str);
+                return studentRepository.findByLastnameIgnoreCaseStartingWith(str, pageable);
             case "major":
-                return studentRepository.findByMajorIgnoreCaseStartingWith(str);
+                return studentRepository.findByMajorIgnoreCaseStartingWith(str, pageable);
             default:
-                return new ArrayList<>();
+                return null;
         }
     }
 }

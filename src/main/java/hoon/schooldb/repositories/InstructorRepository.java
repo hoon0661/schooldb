@@ -10,9 +10,9 @@ import java.util.List;
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
     Page<Instructor> findAll(Pageable pageable);
 
-    List<Instructor> findByFirstnameIgnoreCaseStartingWith(String str);
+    Page<Instructor> findByFirstnameIgnoreCaseStartingWith(String str, Pageable pageable);
 
-    List<Instructor> findByLastnameIgnoreCaseStartingWith(String str);
+    Page<Instructor> findByLastnameIgnoreCaseStartingWith(String str, Pageable pageable);
 
-    List<Instructor> findByMajorIgnoreCaseStartingWith(String str);
+    Page<Instructor> findByMajorIgnoreCaseStartingWith(String str, Pageable pageable);
 }

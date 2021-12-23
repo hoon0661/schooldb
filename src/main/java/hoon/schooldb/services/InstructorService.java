@@ -57,16 +57,20 @@ public class InstructorService {
         return instructor;
     }
 
-    public List<Instructor> getSearchResult(String searchParam, String str) {
+    public Page<Instructor> getSearchResult(int page, int size, String sortBy, boolean isAsc, String searchParam, String str) {
+        page = page - 1;
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
         switch (searchParam) {
             case "firstName":
-                return instructorRepository.findByFirstnameIgnoreCaseStartingWith(str);
+                return instructorRepository.findByFirstnameIgnoreCaseStartingWith(str, pageable);
             case "lastName":
-                return instructorRepository.findByLastnameIgnoreCaseStartingWith(str);
+                return instructorRepository.findByLastnameIgnoreCaseStartingWith(str, pageable);
             case "major":
-                return instructorRepository.findByMajorIgnoreCaseStartingWith(str);
+                return instructorRepository.findByMajorIgnoreCaseStartingWith(str, pageable);
             default:
-                return new ArrayList<>();
+                return null;
         }
     }
 }

@@ -1,26 +1,82 @@
+let categoryButton = "course";
+
 $(document).ready(function () {
     $("#courseBtn").on("click", function () {
-        $("#courseList").removeClass("noneDisplay");
-        $("#instructorList").addClass("noneDisplay");
-        $("#studentList").addClass("noneDisplay");
+        categoryButton = "course";
+        $("#courseList").removeClass("noDisplay");
+        $("#instructorList").addClass("noDisplay");
+        $("#studentList").addClass("noDisplay");
+        $("#courseBtn").addClass("selected");
+        $("#instructorBtn").removeClass("selected");
+        $("#studentBtn").removeClass("selected");
         showCourses();
     })
 
     $("#instructorBtn").on("click", function () {
-        $("#instructorList").removeClass("noneDisplay");
-        $("#courseList").addClass("noneDisplay");
-        $("#studentList").addClass("noneDisplay");
+        categoryButton = "instructor";
+        $("#instructorList").removeClass("noDisplay");
+        $("#courseList").addClass("noDisplay");
+        $("#studentList").addClass("noDisplay");
+        $("#courseBtn").removeClass("selected");
+        $("#instructorBtn").addClass("selected");
+        $("#studentBtn").removeClass("selected");
         showInstructors();
     })
 
     $("#studentBtn").on("click", function () {
-        $("#studentList").removeClass("noneDisplay");
-        $("#instructorList").addClass("noneDisplay");
-        $("#courseList").addClass("noneDisplay");
+        categoryButton = "student";
+        $("#studentList").removeClass("noDisplay");
+        $("#instructorList").addClass("noDisplay");
+        $("#courseList").addClass("noDisplay");
+        $("#courseBtn").removeClass("selected");
+        $("#instructorBtn").removeClass("selected");
+        $("#studentBtn").addClass("selected");
         showStudents();
     })
+
+    $("#query").on("input", function () {
+        getResultFromSearch();
+    })
+
     showCourses();
+    $("#courseBtn").addClass("selected");
 });
+
+function getResultFromSearch() {
+    const str = $("#query").val();
+
+    var sortBy = "id";
+    var isAsc = true;
+    var searchParam = "courseName";
+    $("#pagination").pagination({
+        dataSource: `/api/search?sortBy=${sortBy}&isAsc=${isAsc}&category=${categoryButton}&searchParam=${searchParam}`,
+        locator: "content",
+        alias: {
+            pageNumber: "page",
+            pageSize: "size"
+        },
+        totalNumberLocator: (response) => {
+            return response.totalElements;
+        },
+        pageSize: 10,
+        showPrevious: true,
+        showNext: true,
+        ajax: {
+            beforeSend: function () {
+            }
+        },
+        callback: function (response, pagination) {
+            $("#instructorList").empty();
+            for (let i = 0; i < response.length; i++) {
+                let course = response[i];
+                let tempHtml = createInstructorHtml(course);
+                $("#instructorList").append(tempHtml);
+            }
+        }
+
+    })
+
+}
 
 function showInstructors() {
     // $("#instructorList").empty();
