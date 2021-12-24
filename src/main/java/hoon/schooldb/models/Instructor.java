@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Instructor extends Timestamped{
+public class Instructor extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,14 +47,14 @@ public class Instructor extends Timestamped{
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
-    private boolean isAdmin;
+//    @Column(nullable = false)
+//    private boolean isAdmin;
 
     @JsonIgnore
     @OneToMany(mappedBy = "instructor")
     private List<Course> courses = new ArrayList<>();
 
-    public Instructor(InstructorRequestDto requestDto){
+    public Instructor(InstructorRequestDto requestDto) {
         this.firstname = requestDto.getFirstname();
         this.lastname = requestDto.getLastname();
         this.major = requestDto.getMajor().toString();
@@ -64,10 +64,10 @@ public class Instructor extends Timestamped{
         this.city = requestDto.getCity();
         this.state = requestDto.getState();
         this.zipcode = requestDto.getZipcode();
-        this.isAdmin = requestDto.isAdmin();
+//        this.isAdmin = requestDto.isAdmin();
     }
 
-    public void update(InstructorRequestDto requestDto){
+    public void update(InstructorRequestDto requestDto) {
         this.firstname = requestDto.getFirstname();
         this.lastname = requestDto.getLastname();
         this.major = requestDto.getMajor().toString();

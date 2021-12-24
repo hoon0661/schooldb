@@ -3,7 +3,7 @@ body {
     background-color: #644bff;
 }
 
-#container {
+.container {
     background-color: white;
     border-radius: 15px;
     width: 950px;
@@ -27,8 +27,7 @@ ul * {
 }
 
 ul *:hover {
-    font-weight: bold;
-    font-size: 1.2rem;
+    color: lightgrey;
 }
 
 
@@ -60,15 +59,24 @@ ul *:hover {
 }
 
 #suggestion {
+    width: inherit;
+    overflow-y: scroll;
     background-color: white;
+    position: absolute;
     border: 2px solid black;
+    height: auto;
     margin: 0;
     display: none;
 }
 
-#suggestion li {
-    list-style-type: none;
+#suggestion ul li {
+    position: absolute;
     padding: 2px 5px;
+    list-style-type: none;
+}
+
+#suggestion li:hover {
+    background-color: lightskyblue;
 }
 
 #button {

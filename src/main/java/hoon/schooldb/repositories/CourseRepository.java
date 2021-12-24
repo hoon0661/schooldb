@@ -10,5 +10,5 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository<Course, Long> {
     Page<Course> findAll(Pageable pageable);
 
-    Page<Course> findByCourseNameIgnoreCaseStartingWith(String str, Pageable pageable);
+    List<Course> findByCourseNameIgnoreCaseStartingWith(String str);
 }

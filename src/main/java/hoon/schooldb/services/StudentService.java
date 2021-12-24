@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -47,18 +46,14 @@ public class StudentService {
         return student;
     }
 
-    public Page<Student> getSearchResult(int page, int size, String sortBy, boolean isAsc, String searchParam, String str) {
-        page = page - 1;
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+    public List<Student> getSearchResult(String searchParam, String str) {
         switch (searchParam) {
             case "firstName":
-                return studentRepository.findByFirstnameIgnoreCaseStartingWith(str, pageable);
+                return studentRepository.findByFirstnameIgnoreCaseStartingWith(str);
             case "lastName":
-                return studentRepository.findByLastnameIgnoreCaseStartingWith(str, pageable);
+                return studentRepository.findByLastnameIgnoreCaseStartingWith(str);
             case "major":
-                return studentRepository.findByMajorIgnoreCaseStartingWith(str, pageable);
+                return studentRepository.findByMajorIgnoreCaseStartingWith(str);
             default:
                 return null;
         }

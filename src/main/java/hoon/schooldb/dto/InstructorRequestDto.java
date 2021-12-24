@@ -15,7 +15,7 @@ public class InstructorRequestDto {
     private String city;
     private String state;
     private String zipcode;
-    private Major major;
+    private String major;
     private String email;
     private String phone;
     private boolean isAdmin = false;

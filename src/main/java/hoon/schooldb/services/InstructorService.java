@@ -37,16 +37,16 @@ public class InstructorService {
     }
 
     public Instructor createInstructor(InstructorRequestDto requestDto) {
-        if (!requestDto.getInstructorToken().equals(Config.INSTRUCTOR_KEY)) {
-            throw new IllegalArgumentException("Instructor key is not correct.");
-        }
-        if (requestDto.isAdmin() && !requestDto.getAdminToken().equals(Config.ADMIN_KEY)) {
-            throw new IllegalArgumentException("Admin key is not correct.");
-        }
+//        if (!requestDto.getInstructorToken().equals(Config.INSTRUCTOR_KEY)) {
+//            throw new IllegalArgumentException("Instructor key is not correct.");
+//        }
+//        if (requestDto.isAdmin() && !requestDto.getAdminToken().equals(Config.ADMIN_KEY)) {
+//            throw new IllegalArgumentException("Admin key is not correct.");
+//        }
         Instructor instructor = new Instructor(requestDto);
-        if (requestDto.isAdmin()) {
-            instructor.setAdmin(true);
-        }
+//        if (requestDto.isAdmin()) {
+//            instructor.setAdmin(true);
+//        }
         return instructorRepository.save(instructor);
     }
 
@@ -57,18 +57,15 @@ public class InstructorService {
         return instructor;
     }
 
-    public Page<Instructor> getSearchResult(int page, int size, String sortBy, boolean isAsc, String searchParam, String str) {
-        page = page - 1;
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+    public List<Instructor> getSearchResult(String searchParam, String str) {
+
         switch (searchParam) {
             case "firstName":
-                return instructorRepository.findByFirstnameIgnoreCaseStartingWith(str, pageable);
+                return instructorRepository.findByFirstnameIgnoreCaseStartingWith(str);
             case "lastName":
-                return instructorRepository.findByLastnameIgnoreCaseStartingWith(str, pageable);
+                return instructorRepository.findByLastnameIgnoreCaseStartingWith(str);
             case "major":
-                return instructorRepository.findByMajorIgnoreCaseStartingWith(str, pageable);
+                return instructorRepository.findByMajorIgnoreCaseStartingWith(str);
             default:
                 return null;
         }

@@ -21,24 +21,21 @@ public class SearchController {
     private final StudentService studentService;
 
     @GetMapping("/api/search")
-    public Page<?> search(
+    public List<?> search(
             @RequestParam String category,
             @RequestParam String searchParam,
-            @RequestParam String str,
-            @RequestParam int page,
-            @RequestParam int size,
-            @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(defaultValue = "true") boolean isAsc) {
+            @RequestParam String str
+    ) {
         if (str.trim().length() == 0) {
             return null;
         }
 
         if (category.equals("course")) {
-            return courseService.getSearchResult(page, size, sortBy, isAsc, searchParam, str);
+            return courseService.getSearchResult(searchParam, str);
         } else if (category.equals("instructor")) {
-            return instructorService.getSearchResult(page, size, sortBy, isAsc, searchParam, str);
+            return instructorService.getSearchResult(searchParam, str);
         } else {
-            return studentService.getSearchResult(page, size, sortBy, isAsc, searchParam, str);
+            return studentService.getSearchResult(searchParam, str);
         }
     }
 }

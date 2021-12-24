@@ -1,4 +1,5 @@
 let categoryButton = "course";
+let searchParam;
 
 $(document).ready(function () {
     $("#courseBtn").on("click", function () {
@@ -9,6 +10,7 @@ $(document).ready(function () {
         $("#courseBtn").addClass("selected");
         $("#instructorBtn").removeClass("selected");
         $("#studentBtn").removeClass("selected");
+        createCategoryForCourse();
         showCourses();
     })
 
@@ -20,6 +22,7 @@ $(document).ready(function () {
         $("#courseBtn").removeClass("selected");
         $("#instructorBtn").addClass("selected");
         $("#studentBtn").removeClass("selected");
+        createCategoryForStudentAndInstructor();
         showInstructors();
     })
 
@@ -31,66 +34,90 @@ $(document).ready(function () {
         $("#courseBtn").removeClass("selected");
         $("#instructorBtn").removeClass("selected");
         $("#studentBtn").addClass("selected");
+        createCategoryForStudentAndInstructor();
         showStudents();
     })
 
     $("#query").on("input", function () {
+        searchParam = $("#category option:selected").val();
         getResultFromSearch();
     })
 
+    $("body").on("click", function () {
+        $("#suggestion").css("display", "none");
+    })
+
+    $("#register-button").on("click", function () {
+        register();
+    })
+
+    createCategoryForCourse();
     showCourses();
     $("#courseBtn").addClass("selected");
 });
 
+function register() {
+    const firstname = $("#firstname").val();
+    const lastname = $("#lastname").val();
+    const major = $("#major").val();
+    const address = $("#address").val();
+    const city = $("#city").val();
+    const state = $("#state").val();
+    const zipcode = $("#zipcode").val();
+    const email = $("#email").val();
+    const phone = $("#phone").val();
+
+    const data = {firstname, lastname, major, address, city, state, zipcode, email, phone}
+    console.log("called!");
+
+    $.ajax({
+        type: "POST",
+        url: `/api/${categoryButton}s`,
+        contentType: "application/json",
+        data: JSON.stringify(data),
+        success: function (response) {
+            console.log(response);
+            window.location.href = "/";
+        }
+    })
+}
+
 function getResultFromSearch() {
     const str = $("#query").val();
-
-    var sortBy = "id";
-    var isAsc = true;
-    var searchParam = "courseName";
-    $("#pagination").pagination({
-        dataSource: `/api/search?sortBy=${sortBy}&isAsc=${isAsc}&category=${categoryButton}&searchParam=${searchParam}`,
-        locator: "content",
-        alias: {
-            pageNumber: "page",
-            pageSize: "size"
-        },
-        totalNumberLocator: (response) => {
-            return response.totalElements;
-        },
-        pageSize: 10,
-        showPrevious: true,
-        showNext: true,
-        ajax: {
-            beforeSend: function () {
-            }
-        },
-        callback: function (response, pagination) {
-            $("#instructorList").empty();
+    searchParam = $("#category option:selected").val();
+    $.ajax({
+        type: "GET",
+        url: `api/search?str=${str}&searchParam=${searchParam}&category=${categoryButton}`,
+        success: function (response) {
+            $("#suggestion-box").empty();
+            $("#suggestion").css("display", "block");
             for (let i = 0; i < response.length; i++) {
-                let course = response[i];
-                let tempHtml = createInstructorHtml(course);
-                $("#instructorList").append(tempHtml);
+                let data = response[i];
+                let tempHtml = createSearchResult(data);
+                $("#suggestion-box").append(tempHtml);
             }
+
+        },
+    });
+}
+
+function createSearchResult(response) {
+    if (categoryButton === "course") {
+        if (searchParam === "courseName") {
+            return `<li>${response.courseName}</li>`
         }
-
-    })
-
+    } else if (categoryButton === "instructor" || categoryButton === "student") {
+        if (searchParam === "firstName") {
+            return `<li>${response.firstname}</li>`
+        } else if (searchParam === "lastName") {
+            return `<li>${response.lastname}</li>`
+        } else if (searchParam === "major") {
+            return `<li>${response.major}</li>`
+        }
+    }
 }
 
 function showInstructors() {
-    // $("#instructorList").empty();
-    // $.ajax({
-    //     type: "GET",
-    //     url: "api/instructors",
-    //     success: function (response) {
-    //         for (let i = 0; i < response.length; i++) {
-    //             let instructor = response[i];
-    //             let tempHtml = createInstructorHtml(instructor);
-    //             $("#instructorList").append(tempHtml);
-    //         }
-    //     },
-    // });
     var sortBy = "id";
     var isAsc = true;
     $("#pagination").pagination({
@@ -251,6 +278,18 @@ function createCourseHtml(course) {
 
 function removeUnderscore(str) {
     return str.replace("_", " ");
+}
+
+function createCategoryForStudentAndInstructor() {
+    $("#category").empty();
+    $("#category").append($('<option>').val("firstName").text("Firstname").prop("selected", true));
+    $("#category").append($('<option>').val("lastName").text("Lastname"));
+    $("#category").append($('<option>').val("major").text("Major"));
+}
+
+function createCategoryForCourse() {
+    $("#category").empty();
+    $("#category").append($('<option>').val("courseName").text("Course name").prop("selected", true));
 }
 
 function createCourseHeader(course) {
