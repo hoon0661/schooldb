@@ -1,7 +1,9 @@
 package hoon.schooldb.controllers;
 
 import hoon.schooldb.dto.InstructorRequestDto;
+import hoon.schooldb.models.Course;
 import hoon.schooldb.models.Instructor;
+import hoon.schooldb.services.CourseService;
 import hoon.schooldb.services.InstructorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import java.util.List;
 public class InstructorController {
 
     private final InstructorService instructorService;
+    private final CourseService courseService;
 
     @GetMapping("/api/instructors")
     public List<Instructor> getAllInstructors() {

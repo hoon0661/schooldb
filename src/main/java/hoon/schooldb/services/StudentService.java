@@ -1,6 +1,7 @@
 package hoon.schooldb.services;
 
 import hoon.schooldb.dto.StudentRequestDto;
+import hoon.schooldb.models.Course;
 import hoon.schooldb.models.Student;
 import hoon.schooldb.repositories.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +64,14 @@ public class StudentService {
         }
     }
 
+    @Transactional
     public Long deleteStudent(Long id) {
+        Student student = getStudent(id);
+        List<Course> courses = student.getCourses();
+
+        for (Course course : courses) {
+            course.dropStudent(student);
+        }
         studentRepository.deleteById(id);
         return id;
     }

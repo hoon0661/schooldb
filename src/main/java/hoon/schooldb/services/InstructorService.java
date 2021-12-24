@@ -2,6 +2,7 @@ package hoon.schooldb.services;
 
 import hoon.schooldb.config.Config;
 import hoon.schooldb.dto.InstructorRequestDto;
+import hoon.schooldb.models.Course;
 import hoon.schooldb.models.Instructor;
 import hoon.schooldb.repositories.InstructorRepository;
 import lombok.RequiredArgsConstructor;
@@ -75,7 +76,13 @@ public class InstructorService {
         return instructorRepository.findAll();
     }
 
+    @Transactional
     public Long deleteInstructor(Long id) {
+        Instructor instructor = getInstructor(id);
+        List<Course> teachingCourses = instructor.getCourses();
+        for (Course course : teachingCourses) {
+            course.dropInstructor(instructor);
+        }
         instructorRepository.deleteById(id);
         return id;
     }
