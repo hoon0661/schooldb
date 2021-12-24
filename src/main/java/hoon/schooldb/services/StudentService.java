@@ -18,7 +18,11 @@ import java.util.List;
 public class StudentService {
     private final StudentRepository studentRepository;
 
-    public Page<Student> getAllStudents(int page, int size, String sortBy, boolean isAsc) {
+    public List<Student> getAllStudents() {
+        return studentRepository.findAll();
+    }
+
+    public Page<Student> getAllStudentsByPages(int page, int size, String sortBy, boolean isAsc) {
         page = page - 1;
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
@@ -57,5 +61,10 @@ public class StudentService {
             default:
                 return null;
         }
+    }
+
+    public Long deleteStudent(Long id) {
+        studentRepository.deleteById(id);
+        return id;
     }
 }

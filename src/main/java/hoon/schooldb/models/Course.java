@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Course extends Timestamped{
+public class Course extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,14 +36,14 @@ public class Course extends Timestamped{
     @JoinColumn(name = "instructor_id", referencedColumnName = "id")
     private Instructor instructor;
 
-    public Course(CourseRequestDto requestDto){
+    public Course(CourseRequestDto requestDto) {
         this.courseName = requestDto.getCourseName();
 //        this.instructor = requestDto.getInstructor();
         this.capacity = requestDto.getCapacity();
         this.description = requestDto.getDescription();
     }
 
-    public void update(CourseRequestDto requestDto){
+    public void update(CourseRequestDto requestDto) {
         this.courseName = requestDto.getCourseName();
 //        this.instructor = requestDto.getInstructor();
         this.capacity = requestDto.getCapacity();
@@ -51,7 +51,7 @@ public class Course extends Timestamped{
     }
 
     public void enrollStudent(Student student) {
-        if(students.contains(student)){
+        if (students.contains(student)) {
             throw new IllegalArgumentException("Student has been already enrolled.");
         }
         students.add(student);

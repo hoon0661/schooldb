@@ -16,12 +16,17 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping("/api/courses")
-    public Page<Course> getAllCourses(
+    public List<Course> getAllCourses() {
+        return courseService.getAllCourses();
+    }
+
+    @GetMapping("/api/courses/pages")
+    public Page<Course> getAllCoursesByPages(
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "true") boolean isAsc) {
-        return courseService.getAllCourses(page, size, sortBy, isAsc);
+        return courseService.getCoursesByPage(page, size, sortBy, isAsc);
     }
 
     @GetMapping("/api/courses/{id}")
@@ -30,7 +35,7 @@ public class CourseController {
     }
 
     @PostMapping("/api/courses")
-    public Course createCourse(CourseRequestDto requestDto) {
+    public Course createCourse(@RequestBody CourseRequestDto requestDto) {
         return courseService.createCourse(requestDto);
     }
 
@@ -47,5 +52,10 @@ public class CourseController {
     @PutMapping("/api/courses/{courseId}/instructors/{instructorId}")
     public Course enrollInstructor(@PathVariable Long courseId, @PathVariable Long instructorId) {
         return courseService.enrollInstructor(courseId, instructorId);
+    }
+
+    @DeleteMapping("/api/courses/{id}")
+    public Long deleteCourse(@PathVariable Long id) {
+        return courseService.deleteCourse(id);
     }
 }

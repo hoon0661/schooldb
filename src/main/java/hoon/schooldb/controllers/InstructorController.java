@@ -16,12 +16,17 @@ public class InstructorController {
     private final InstructorService instructorService;
 
     @GetMapping("/api/instructors")
-    public Page<Instructor> getAllInstructors(
+    public List<Instructor> getAllInstructors() {
+        return instructorService.getAllInstructors();
+    }
+
+    @GetMapping("/api/instructors/pages")
+    public Page<Instructor> getAllInstructorsByPages(
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "true") boolean isAsc) {
-        return instructorService.getAllInstructors(page, size, sortBy, isAsc);
+        return instructorService.getAllInstructorsByPages(page, size, sortBy, isAsc);
     }
 
     @GetMapping("/api/instructors/{id}")
@@ -37,5 +42,10 @@ public class InstructorController {
     @PutMapping("/api/instructors/{id}")
     public Instructor updateInstructor(@PathVariable Long id, @RequestBody InstructorRequestDto requestDto) {
         return instructorService.update(id, requestDto);
+    }
+
+    @DeleteMapping("/api/instructors/{id}")
+    public Long deleteInstructor(@PathVariable Long id) {
+        return instructorService.deleteInstructor(id);
     }
 }

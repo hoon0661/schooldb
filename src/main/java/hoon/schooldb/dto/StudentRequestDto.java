@@ -1,6 +1,5 @@
 package hoon.schooldb.dto;
 
-import hoon.schooldb.models.Major;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

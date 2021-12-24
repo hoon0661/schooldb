@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +22,11 @@ public class CourseService {
     private final StudentService studentService;
     private final InstructorService instructorService;
 
-    public Page<Course> getAllCourses(int page, int size, String sortBy, boolean isAsc) {
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
+    }
+
+    public Page<Course> getCoursesByPage(int page, int size, String sortBy, boolean isAsc) {
         page = page - 1;
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
@@ -73,5 +76,10 @@ public class CourseService {
             return null;
         }
 
+    }
+
+    public Long deleteCourse(Long id) {
+        courseRepository.deleteById(id);
+        return id;
     }
 }

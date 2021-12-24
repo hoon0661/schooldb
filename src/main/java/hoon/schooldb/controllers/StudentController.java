@@ -7,18 +7,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 public class StudentController {
     private final StudentService studentService;
 
     @GetMapping("/api/students")
-    public Page<Student> getAllStudents(
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
+    }
+
+    @GetMapping("/api/students/pages")
+    public Page<Student> getAllStudentsByPages(
             @RequestParam int page,
             @RequestParam int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "true") boolean isAsc) {
-        return studentService.getAllStudents(page, size, sortBy, isAsc);
+        return studentService.getAllStudentsByPages(page, size, sortBy, isAsc);
     }
 
     @GetMapping("/api/students/{id}")
@@ -34,6 +41,11 @@ public class StudentController {
     @PutMapping("/api/students/{id}")
     public Student updateStudent(@PathVariable Long id, @RequestBody StudentRequestDto requestDto) {
         return studentService.update(id, requestDto);
+    }
+
+    @DeleteMapping("/api/students/{id}")
+    public Long deleteStudent(@PathVariable Long id) {
+        return studentService.deleteStudent(id);
     }
 
 }

@@ -4,7 +4,6 @@ import hoon.schooldb.config.Config;
 import hoon.schooldb.dto.CourseRequestDto;
 import hoon.schooldb.dto.InstructorRequestDto;
 import hoon.schooldb.dto.StudentRequestDto;
-import hoon.schooldb.models.Major;
 import hoon.schooldb.services.CourseService;
 import hoon.schooldb.services.InstructorService;
 import hoon.schooldb.services.StudentService;
@@ -20,7 +19,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class TestDataRunner implements ApplicationRunner {
 

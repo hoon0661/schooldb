@@ -20,7 +20,7 @@ import java.util.List;
 public class InstructorService {
     private final InstructorRepository instructorRepository;
 
-    public Page<Instructor> getAllInstructors(int page, int size, String sortBy, boolean isAsc) {
+    public Page<Instructor> getAllInstructorsByPages(int page, int size, String sortBy, boolean isAsc) {
         page = page - 1;
         Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortBy);
@@ -69,5 +69,14 @@ public class InstructorService {
             default:
                 return null;
         }
+    }
+
+    public List<Instructor> getAllInstructors() {
+        return instructorRepository.findAll();
+    }
+
+    public Long deleteInstructor(Long id) {
+        instructorRepository.deleteById(id);
+        return id;
     }
 }
