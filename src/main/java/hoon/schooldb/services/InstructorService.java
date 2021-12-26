@@ -1,6 +1,5 @@
 package hoon.schooldb.services;
 
-import hoon.schooldb.config.Config;
 import hoon.schooldb.dto.InstructorRequestDto;
 import hoon.schooldb.models.Course;
 import hoon.schooldb.models.Instructor;
@@ -13,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,22 +36,13 @@ public class InstructorService {
         return instructor;
     }
 
-    public Instructor createInstructor(InstructorRequestDto requestDto) {
-//        if (!requestDto.getInstructorToken().equals(Config.INSTRUCTOR_KEY)) {
-//            throw new IllegalArgumentException("Instructor key is not correct.");
-//        }
-//        if (requestDto.isAdmin() && !requestDto.getAdminToken().equals(Config.ADMIN_KEY)) {
-//            throw new IllegalArgumentException("Admin key is not correct.");
-//        }
+    public Instructor createInstructor(InstructorRequestDto requestDto) throws FileNotFoundException {
         Instructor instructor = new Instructor(requestDto);
-//        if (requestDto.isAdmin()) {
-//            instructor.setAdmin(true);
-//        }
         return instructorRepository.save(instructor);
     }
 
     @Transactional
-    public Instructor update(Long id, InstructorRequestDto requestDto) {
+    public Instructor update(Long id, InstructorRequestDto requestDto) throws FileNotFoundException {
         Instructor instructor = instructorRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID does not exist."));
         instructor.update(requestDto);
         return instructor;

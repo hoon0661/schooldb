@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -34,12 +35,12 @@ public class StudentController {
     }
 
     @PostMapping("/api/students")
-    public Student createStudent(@RequestBody StudentRequestDto requestDto) {
+    public Student createStudent(@RequestBody StudentRequestDto requestDto) throws FileNotFoundException {
         return studentService.createStudent(requestDto);
     }
 
     @PutMapping("/api/students/{id}")
-    public Student updateStudent(@PathVariable Long id, @RequestBody StudentRequestDto requestDto) {
+    public Student updateStudent(@PathVariable Long id, @RequestBody StudentRequestDto requestDto) throws FileNotFoundException {
         return studentService.update(id, requestDto);
     }
 

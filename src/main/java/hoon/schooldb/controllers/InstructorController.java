@@ -1,7 +1,6 @@
 package hoon.schooldb.controllers;
 
 import hoon.schooldb.dto.InstructorRequestDto;
-import hoon.schooldb.models.Course;
 import hoon.schooldb.models.Instructor;
 import hoon.schooldb.services.CourseService;
 import hoon.schooldb.services.InstructorService;
@@ -9,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RestController
@@ -38,12 +38,12 @@ public class InstructorController {
     }
 
     @PostMapping("/api/instructors")
-    public Instructor createInstructor(@RequestBody InstructorRequestDto requestDto) {
+    public Instructor createInstructor(@RequestBody InstructorRequestDto requestDto) throws FileNotFoundException {
         return instructorService.createInstructor(requestDto);
     }
 
     @PutMapping("/api/instructors/{id}")
-    public Instructor updateInstructor(@PathVariable Long id, @RequestBody InstructorRequestDto requestDto) {
+    public Instructor updateInstructor(@PathVariable Long id, @RequestBody InstructorRequestDto requestDto) throws FileNotFoundException {
         return instructorService.update(id, requestDto);
     }
 

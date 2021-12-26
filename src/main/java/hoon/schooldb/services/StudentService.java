@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,13 +40,13 @@ public class StudentService {
         return student;
     }
 
-    public Student createStudent(StudentRequestDto requestDto) {
+    public Student createStudent(StudentRequestDto requestDto) throws FileNotFoundException {
         Student student = new Student(requestDto);
         return studentRepository.save(student);
     }
 
     @Transactional
-    public Student update(Long id, StudentRequestDto requestDto) {
+    public Student update(Long id, StudentRequestDto requestDto) throws FileNotFoundException {
         Student student = studentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("ID does not exist."));
         student.update(requestDto);
         return student;

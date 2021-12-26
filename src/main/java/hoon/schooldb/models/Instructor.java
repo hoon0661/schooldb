@@ -2,11 +2,17 @@ package hoon.schooldb.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import hoon.schooldb.dto.InstructorRequestDto;
+import hoon.schooldb.dto.StudentRequestDto;
+import hoon.schooldb.utils.EmailValidator;
+import hoon.schooldb.utils.PhoneNumberValidator;
+import hoon.schooldb.utils.StateValidator;
+import hoon.schooldb.utils.ZipcodeValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,36 +53,66 @@ public class Instructor extends Timestamped {
     @Column(nullable = false)
     private String phone;
 
-//    @Column(nullable = false)
-//    private boolean isAdmin;
-
     @JsonIgnore
     @OneToMany(mappedBy = "instructor")
     private List<Course> courses = new ArrayList<>();
 
-    public Instructor(InstructorRequestDto requestDto) {
+    public Instructor(InstructorRequestDto requestDto) throws FileNotFoundException {
+        validateInput(requestDto);
         this.firstname = requestDto.getFirstname();
         this.lastname = requestDto.getLastname();
-        this.major = requestDto.getMajor().toString();
+        this.major = requestDto.getMajor();
         this.email = requestDto.getEmail();
         this.phone = requestDto.getPhone();
         this.address = requestDto.getAddress();
         this.city = requestDto.getCity();
         this.state = requestDto.getState();
         this.zipcode = requestDto.getZipcode();
-//        this.isAdmin = requestDto.isAdmin();
     }
 
-    public void update(InstructorRequestDto requestDto) {
+    public void update(InstructorRequestDto requestDto) throws FileNotFoundException {
+        validateInput(requestDto);
         this.firstname = requestDto.getFirstname();
         this.lastname = requestDto.getLastname();
-        this.major = requestDto.getMajor().toString();
+        this.major = requestDto.getMajor();
         this.email = requestDto.getEmail();
         this.phone = requestDto.getPhone();
         this.address = requestDto.getAddress();
         this.city = requestDto.getCity();
         this.state = requestDto.getState();
         this.zipcode = requestDto.getZipcode();
+    }
+
+    public void validateInput(InstructorRequestDto requestDto) throws FileNotFoundException {
+        if (requestDto.getFirstname() == null || requestDto.getFirstname().isEmpty() || requestDto.getFirstname().trim().length() < 2) {
+            throw new IllegalArgumentException("Firstname is not valid.");
+        }
+        if (requestDto.getLastname() == null || requestDto.getLastname().isEmpty() || requestDto.getLastname().trim().length() < 2) {
+            throw new IllegalArgumentException("Lastname is not valid.");
+        }
+        if (requestDto.getMajor() == null || requestDto.getMajor().isEmpty() || requestDto.getMajor().trim().length() < 3) {
+            throw new IllegalArgumentException("Major is not valid.");
+        }
+        if (EmailValidator.isEmpty(requestDto.getEmail()) || EmailValidator.isNull(requestDto.getEmail()) || !EmailValidator.patternMatches(requestDto.getEmail())) {
+            throw new IllegalArgumentException("Lastname is not valid.");
+        }
+        if (PhoneNumberValidator.isEmpty(requestDto.getPhone()) || PhoneNumberValidator.isNull(requestDto.getPhone()) || !PhoneNumberValidator.patternMatches(requestDto.getPhone())) {
+            throw new IllegalArgumentException("phone number is not valid.");
+        }
+        if (requestDto.getAddress() == null || requestDto.getAddress().isEmpty()) {
+            throw new IllegalArgumentException("Address is not valid.");
+        }
+        if (requestDto.getCity() == null || requestDto.getCity().isEmpty()) {
+            throw new IllegalArgumentException("City is not valid.");
+        }
+
+        StateValidator stateValidator = new StateValidator();
+        if (stateValidator.isEmpty(requestDto.getState()) || stateValidator.isNull(requestDto.getState()) || !stateValidator.isInStateList(requestDto.getState())) {
+            throw new IllegalArgumentException("State is not valid");
+        }
+        if (ZipcodeValidator.isEmpty(requestDto.getZipcode()) || ZipcodeValidator.isNull(requestDto.getZipcode()) || !ZipcodeValidator.patternMatches(requestDto.getZipcode())) {
+            throw new IllegalArgumentException("zipcode is not valid");
+        }
     }
 
 }
