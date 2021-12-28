@@ -37,12 +37,14 @@ public class Course extends Timestamped {
     private Instructor instructor;
 
     public Course(CourseRequestDto requestDto) {
+        validateInput(requestDto);
         this.courseName = requestDto.getCourseName();
         this.capacity = requestDto.getCapacity();
         this.description = requestDto.getDescription();
     }
 
     public void update(CourseRequestDto requestDto) {
+        validateInput(requestDto);
         this.courseName = requestDto.getCourseName();
         this.capacity = requestDto.getCapacity();
         this.description = requestDto.getDescription();
@@ -59,6 +61,9 @@ public class Course extends Timestamped {
     }
 
     public void enrollInstructor(Instructor instructor) {
+        if (this.instructor != null) {
+            throw new IllegalArgumentException("Instructor has been already enrolled.");
+        }
         this.instructor = instructor;
     }
 
@@ -77,5 +82,17 @@ public class Course extends Timestamped {
             throw new IllegalArgumentException("Instructor does not match.");
         }
         this.instructor = null;
+    }
+
+    public void validateInput(CourseRequestDto requestDto) {
+        if (requestDto.getCourseName() == null || requestDto.getCourseName().isEmpty() || requestDto.getCourseName().trim().length() < 2) {
+            throw new IllegalArgumentException("Course name is not valid.");
+        }
+        if (requestDto.getCapacity() < 1) {
+            throw new IllegalArgumentException("Capacity must be greater than 0.");
+        }
+        if (requestDto.getDescription() == null || requestDto.getDescription().isEmpty()) {
+            throw new IllegalArgumentException("Description is not valid.");
+        }
     }
 }

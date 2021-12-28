@@ -40,7 +40,6 @@ public class TestDataRunner implements ApplicationRunner {
         createDataList();
         int stateSize = states.size();
         for (int i = 0; i < 20; i++) {
-
             int firstnameLength = firstNames.size();
             int lastnameLength = lastNames.size();
             int majorLength = majorNames.size();
@@ -95,7 +94,7 @@ public class TestDataRunner implements ApplicationRunner {
                 adminToken = Config.ADMIN_KEY;
             }
 
-            InstructorRequestDto requestDto = new InstructorRequestDto(firstname, lastname, address, city, state, zipcode, major, email, phone, isAdmin, instructorToken, adminToken);
+            InstructorRequestDto requestDto = new InstructorRequestDto(firstname, lastname, address, city, state, zipcode, major, email, phone);
             instructorService.createInstructor(requestDto);
         }
 

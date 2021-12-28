@@ -17,7 +17,4 @@ public class InstructorRequestDto {
     private String major;
     private String email;
     private String phone;
-    private boolean isAdmin = false;
-    private String instructorToken = "";
-    private String adminToken = "";
 }

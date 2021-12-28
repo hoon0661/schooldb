@@ -1,11 +1,9 @@
 package hoon.schooldb.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hoon.schooldb.dto.InstructorRequestDto;
 import hoon.schooldb.dto.StudentRequestDto;
-import hoon.schooldb.utils.EmailValidator;
-import hoon.schooldb.utils.PhoneNumberValidator;
-import hoon.schooldb.utils.StateValidator;
-import hoon.schooldb.utils.ZipcodeValidator;
+import hoon.schooldb.utils.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -83,20 +81,20 @@ public class Student extends Timestamped {
     }
 
     public void validateInput(StudentRequestDto requestDto) throws FileNotFoundException {
-        if (requestDto.getFirstname() == null || requestDto.getFirstname().isEmpty() || requestDto.getFirstname().trim().length() < 2) {
+        if (requestDto.getFirstname() == null || requestDto.getFirstname().isEmpty() || requestDto.getFirstname().trim().length() < 2 || !NameValidator.isAllLetters(requestDto.getFirstname())) {
             throw new IllegalArgumentException("Firstname is not valid.");
         }
-        if (requestDto.getLastname() == null || requestDto.getLastname().isEmpty() || requestDto.getLastname().trim().length() < 2) {
+        if (requestDto.getLastname() == null || requestDto.getLastname().isEmpty() || requestDto.getLastname().trim().length() < 2 || !NameValidator.isAllLetters(requestDto.getLastname())) {
             throw new IllegalArgumentException("Lastname is not valid.");
         }
         if (requestDto.getMajor() == null || requestDto.getMajor().isEmpty() || requestDto.getMajor().trim().length() < 3) {
             throw new IllegalArgumentException("Major is not valid.");
         }
         if (EmailValidator.isNull(requestDto.getEmail()) || EmailValidator.isEmpty(requestDto.getEmail()) || !EmailValidator.patternMatches(requestDto.getEmail())) {
-            throw new IllegalArgumentException("Lastname is not valid.");
+            throw new IllegalArgumentException("Email is not valid.");
         }
         if (PhoneNumberValidator.isNull(requestDto.getPhone()) || PhoneNumberValidator.isEmpty(requestDto.getPhone()) || !PhoneNumberValidator.patternMatches(requestDto.getPhone())) {
-            throw new IllegalArgumentException("phone number is not valid.");
+            throw new IllegalArgumentException("Phone number is not valid.");
         }
         if (requestDto.getAddress() == null || requestDto.getAddress().isEmpty()) {
             throw new IllegalArgumentException("Address is not valid.");
@@ -107,10 +105,10 @@ public class Student extends Timestamped {
 
         StateValidator stateValidator = new StateValidator();
         if (stateValidator.isNull(requestDto.getState()) || stateValidator.isEmpty(requestDto.getState()) || !stateValidator.isInStateList(requestDto.getState())) {
-            throw new IllegalArgumentException("State is not valid");
+            throw new IllegalArgumentException("State is not valid.");
         }
         if (ZipcodeValidator.isNull(requestDto.getZipcode()) || ZipcodeValidator.isEmpty(requestDto.getZipcode()) || !ZipcodeValidator.patternMatches(requestDto.getZipcode())) {
-            throw new IllegalArgumentException("zipcode is not valid");
+            throw new IllegalArgumentException("Zipcode is not valid.");
         }
     }
 

@@ -33,11 +33,5 @@ class EmailValidatorTest {
         String email = "abc123email.com";
         assertFalse(!EmailValidator.isNull(email) && !EmailValidator.isEmpty(email) && EmailValidator.patternMatches(email));
     }
-
-    @Test
-    @DisplayName("When email does not have . ")
-    void test5() {
-        String email = "abc123emailcom";
-        assertFalse(!EmailValidator.isNull(email) && !EmailValidator.isEmpty(email) && EmailValidator.patternMatches(email));
-    }
+    
 }
