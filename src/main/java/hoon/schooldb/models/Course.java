@@ -52,6 +52,9 @@ public class Course extends Timestamped {
         if (students.contains(student)) {
             throw new IllegalArgumentException("Student has been already enrolled.");
         }
+        if (students.size() == this.capacity) {
+            throw new IllegalArgumentException("The class is full.");
+        }
         students.add(student);
     }
 
@@ -69,6 +72,9 @@ public class Course extends Timestamped {
     public void dropInstructor(Instructor instructor) {
         if (this.instructor == null) {
             throw new IllegalArgumentException("Instructor is not in class.");
+        }
+        if (this.instructor != instructor) {
+            throw new IllegalArgumentException("Instructor does not match.");
         }
         this.instructor = null;
     }

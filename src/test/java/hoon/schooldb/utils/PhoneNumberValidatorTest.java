@@ -21,7 +21,7 @@ class PhoneNumberValidatorTest {
     }
 
     @Test
-    @DisplayName("When email is empty string")
+    @DisplayName("When number is empty string")
     void test3() {
         String number = "";
         assertFalse(!PhoneNumberValidator.isNull(number) && !PhoneNumberValidator.isEmpty(number) && PhoneNumberValidator.patternMatches(number));
