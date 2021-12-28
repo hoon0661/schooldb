@@ -38,14 +38,12 @@ public class Course extends Timestamped {
 
     public Course(CourseRequestDto requestDto) {
         this.courseName = requestDto.getCourseName();
-//        this.instructor = requestDto.getInstructor();
         this.capacity = requestDto.getCapacity();
         this.description = requestDto.getDescription();
     }
 
     public void update(CourseRequestDto requestDto) {
         this.courseName = requestDto.getCourseName();
-//        this.instructor = requestDto.getInstructor();
         this.capacity = requestDto.getCapacity();
         this.description = requestDto.getDescription();
     }
