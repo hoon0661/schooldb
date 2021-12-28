@@ -92,10 +92,10 @@ public class Student extends Timestamped {
         if (requestDto.getMajor() == null || requestDto.getMajor().isEmpty() || requestDto.getMajor().trim().length() < 3) {
             throw new IllegalArgumentException("Major is not valid.");
         }
-        if (EmailValidator.isEmpty(requestDto.getEmail()) || EmailValidator.isNull(requestDto.getEmail()) || !EmailValidator.patternMatches(requestDto.getEmail())) {
+        if (EmailValidator.isNull(requestDto.getEmail()) || EmailValidator.isEmpty(requestDto.getEmail()) || !EmailValidator.patternMatches(requestDto.getEmail())) {
             throw new IllegalArgumentException("Lastname is not valid.");
         }
-        if (PhoneNumberValidator.isEmpty(requestDto.getPhone()) || PhoneNumberValidator.isNull(requestDto.getPhone()) || !PhoneNumberValidator.patternMatches(requestDto.getPhone())) {
+        if (PhoneNumberValidator.isNull(requestDto.getPhone()) || PhoneNumberValidator.isEmpty(requestDto.getPhone()) || !PhoneNumberValidator.patternMatches(requestDto.getPhone())) {
             throw new IllegalArgumentException("phone number is not valid.");
         }
         if (requestDto.getAddress() == null || requestDto.getAddress().isEmpty()) {
@@ -106,10 +106,10 @@ public class Student extends Timestamped {
         }
 
         StateValidator stateValidator = new StateValidator();
-        if (stateValidator.isEmpty(requestDto.getState()) || stateValidator.isNull(requestDto.getState()) || !stateValidator.isInStateList(requestDto.getState())) {
+        if (stateValidator.isNull(requestDto.getState()) || stateValidator.isEmpty(requestDto.getState()) || !stateValidator.isInStateList(requestDto.getState())) {
             throw new IllegalArgumentException("State is not valid");
         }
-        if (ZipcodeValidator.isEmpty(requestDto.getZipcode()) || ZipcodeValidator.isNull(requestDto.getZipcode()) || !ZipcodeValidator.patternMatches(requestDto.getZipcode())) {
+        if (ZipcodeValidator.isNull(requestDto.getZipcode()) || ZipcodeValidator.isEmpty(requestDto.getZipcode()) || !ZipcodeValidator.patternMatches(requestDto.getZipcode())) {
             throw new IllegalArgumentException("zipcode is not valid");
         }
     }

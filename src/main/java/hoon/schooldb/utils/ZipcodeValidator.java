@@ -12,11 +12,6 @@ public class ZipcodeValidator {
     }
 
     public static boolean patternMatches(String zipcode) {
-        try {
-            int zipcodeInt = Integer.parseInt(zipcode);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("zipcode must be numbers.");
-        }
         String pattern = "^\\d{5}$";
         return Pattern.compile(pattern).matcher(zipcode).matches();
     }
