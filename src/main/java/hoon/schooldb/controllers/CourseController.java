@@ -2,7 +2,11 @@ package hoon.schooldb.controllers;
 
 import hoon.schooldb.dto.CourseRequestDto;
 import hoon.schooldb.models.Course;
+import hoon.schooldb.models.Instructor;
+import hoon.schooldb.models.Student;
 import hoon.schooldb.services.CourseService;
+import hoon.schooldb.services.InstructorService;
+import hoon.schooldb.services.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +18,8 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final StudentService studentService;
+    private final InstructorService instructorService;
 
     @GetMapping("/api/courses")
     public List<Course> getAllCourses() {
@@ -46,12 +52,14 @@ public class CourseController {
 
     @PutMapping("/api/courses/{courseId}/students/{studentId}")
     public Course enrollStudent(@PathVariable Long courseId, @PathVariable Long studentId) {
-        return courseService.enrollStudent(courseId, studentId);
+        Student student = studentService.getStudent(studentId);
+        return courseService.enrollStudent(courseId, student);
     }
 
     @PutMapping("/api/courses/{courseId}/instructors/{instructorId}")
     public Course enrollInstructor(@PathVariable Long courseId, @PathVariable Long instructorId) {
-        return courseService.enrollInstructor(courseId, instructorId);
+        Instructor instructor = instructorService.getInstructor(instructorId);
+        return courseService.enrollInstructor(courseId, instructor);
     }
 
     @DeleteMapping("/api/courses/{id}")

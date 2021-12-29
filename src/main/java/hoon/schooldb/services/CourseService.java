@@ -19,8 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CourseService {
     private final CourseRepository courseRepository;
-    private final StudentService studentService;
-    private final InstructorService instructorService;
 
     public List<Course> getAllCourses() {
         return courseRepository.findAll();
@@ -52,19 +50,15 @@ public class CourseService {
     }
 
     @Transactional
-    public Course enrollStudent(Long courseId, Long studentId) {
+    public Course enrollStudent(Long courseId, Student student) {
         Course course = getCourse(courseId);
-        Student student = studentService.getStudent(studentId);
-
         course.enrollStudent(student);
         return course;
     }
 
     @Transactional
-    public Course enrollInstructor(Long courseId, Long instructorId) {
+    public Course enrollInstructor(Long courseId, Instructor instructor) {
         Course course = getCourse(courseId);
-        Instructor instructor = instructorService.getInstructor(instructorId);
-
         course.enrollInstructor(instructor);
         return course;
     }

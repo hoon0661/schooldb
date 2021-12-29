@@ -27,124 +27,128 @@ class CourseTest {
             description = "Basic Mathematics";
         }
 
-        @Test
-        @DisplayName("Normal case")
-        void createCourse_Normal() {
-            CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
-            Course course = new Course(requestDto);
+        @Nested
+        @DisplayName("Success cases")
+        class Success {
+            @Test
+            @DisplayName("Normal case")
+            void createCourse_Normal() {
+                CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
+                Course course = new Course(requestDto);
 
-            assertNull(course.getId());
-            assertEquals(courseName, course.getCourseName());
-            assertEquals(capacity, course.getCapacity());
-            assertEquals(description, course.getDescription());
+                assertNull(course.getId());
+                assertEquals(courseName, course.getCourseName());
+                assertEquals(capacity, course.getCapacity());
+                assertEquals(description, course.getDescription());
+            }
+
+            @Test
+            @DisplayName("Insert a student, normal case")
+            void insertStudent_Normal() throws FileNotFoundException {
+                CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
+                Course course = new Course(courseRequestDto);
+
+                StudentRequestDto studentRequestDto = new StudentRequestDto(
+                        "MyFirstname",
+                        "MyLastname",
+                        "123 abc st",
+                        "abcde",
+                        "new york",
+                        "12345",
+                        "computer science",
+                        "abc123@email.com",
+                        "1234567890"
+                );
+
+                Student student = new Student(studentRequestDto);
+                course.enrollStudent(student);
+
+                assertTrue(course.getStudents().size() == 1);
+                assertTrue(student.getEmail() == course.getStudents().get(0).getEmail());
+            }
+
+            @Test
+            @DisplayName("Insert an instructor, normal case")
+            void insertInstructor_Normal() throws FileNotFoundException {
+                CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
+                Course course = new Course(courseRequestDto);
+
+                InstructorRequestDto instructorRequestDto = new InstructorRequestDto(
+                        "MyFirstname",
+                        "MyLastname",
+                        "123 abc st",
+                        "abcde",
+                        "new york",
+                        "12345",
+                        "computer science",
+                        "abc123@email.com",
+                        "1234567890"
+                );
+
+                Instructor instructor = new Instructor(instructorRequestDto);
+                course.enrollInstructor(instructor);
+
+                assertNotNull(course.getInstructor());
+                assertTrue(instructor.getEmail() == course.getInstructor().getEmail());
+            }
+
+            @Test
+            @DisplayName("drop a student, normal case")
+            void dropStudent_Normal() throws FileNotFoundException {
+                CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
+                Course course = new Course(courseRequestDto);
+
+                StudentRequestDto studentRequestDto = new StudentRequestDto(
+                        "MyFirstname",
+                        "MyLastname",
+                        "123 abc st",
+                        "abcde",
+                        "new york",
+                        "12345",
+                        "computer science",
+                        "abc123@email.com",
+                        "1234567890"
+                );
+
+                Student student = new Student(studentRequestDto);
+                course.enrollStudent(student);
+
+                assertTrue(course.getStudents().size() == 1);
+                assertTrue(student.getEmail().equals(course.getStudents().get(0).getEmail()));
+
+                course.dropStudent(student);
+                assertEquals(0, course.getStudents().size());
+            }
+
+            @Test
+            @DisplayName("drop an instructor, normal case")
+            void dropInstructor_Normal() throws FileNotFoundException {
+                CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
+                Course course = new Course(courseRequestDto);
+
+                InstructorRequestDto instructorRequestDto = new InstructorRequestDto(
+                        "MyFirstname",
+                        "MyLastname",
+                        "123 abc st",
+                        "abcde",
+                        "new york",
+                        "12345",
+                        "computer science",
+                        "abc123@email.com",
+                        "1234567890"
+                );
+
+                Instructor instructor = new Instructor(instructorRequestDto);
+                course.enrollInstructor(instructor);
+
+                assertNotNull(course.getInstructor());
+                assertTrue(instructor.getEmail() == course.getInstructor().getEmail());
+
+                course.dropInstructor(instructor);
+                assertNull(course.getInstructor());
+            }
         }
-
-        @Test
-        @DisplayName("Insert a student, normal case")
-        void insertStudent_Normal() throws FileNotFoundException {
-            CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
-            Course course = new Course(courseRequestDto);
-
-            StudentRequestDto studentRequestDto = new StudentRequestDto(
-                    "MyFirstname",
-                    "MyLastname",
-                    "123 abc st",
-                    "abcde",
-                    "new york",
-                    "12345",
-                    "computer science",
-                    "abc123@email.com",
-                    "1234567890"
-            );
-
-            Student student = new Student(studentRequestDto);
-            course.enrollStudent(student);
-
-            assertTrue(course.getStudents().size() == 1);
-            assertTrue(student.getEmail() == course.getStudents().get(0).getEmail());
-        }
-
-        @Test
-        @DisplayName("Insert an instructor, normal case")
-        void insertInstructor_Normal() throws FileNotFoundException {
-            CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
-            Course course = new Course(courseRequestDto);
-
-            InstructorRequestDto instructorRequestDto = new InstructorRequestDto(
-                    "MyFirstname",
-                    "MyLastname",
-                    "123 abc st",
-                    "abcde",
-                    "new york",
-                    "12345",
-                    "computer science",
-                    "abc123@email.com",
-                    "1234567890"
-            );
-
-            Instructor instructor = new Instructor(instructorRequestDto);
-            course.enrollInstructor(instructor);
-
-            assertNotNull(course.getInstructor());
-            assertTrue(instructor.getEmail() == course.getInstructor().getEmail());
-        }
-
-        @Test
-        @DisplayName("drop a student, normal case")
-        void dropStudent_Normal() throws FileNotFoundException {
-            CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
-            Course course = new Course(courseRequestDto);
-
-            StudentRequestDto studentRequestDto = new StudentRequestDto(
-                    "MyFirstname",
-                    "MyLastname",
-                    "123 abc st",
-                    "abcde",
-                    "new york",
-                    "12345",
-                    "computer science",
-                    "abc123@email.com",
-                    "1234567890"
-            );
-
-            Student student = new Student(studentRequestDto);
-            course.enrollStudent(student);
-
-            assertTrue(course.getStudents().size() == 1);
-            assertTrue(student.getEmail().equals(course.getStudents().get(0).getEmail()));
-
-            course.dropStudent(student);
-            assertEquals(0, course.getStudents().size());
-        }
-
-        @Test
-        @DisplayName("drop an instructor, normal case")
-        void dropInstructor_Normal() throws FileNotFoundException {
-            CourseRequestDto courseRequestDto = new CourseRequestDto(courseName, capacity, description);
-            Course course = new Course(courseRequestDto);
-
-            InstructorRequestDto instructorRequestDto = new InstructorRequestDto(
-                    "MyFirstname",
-                    "MyLastname",
-                    "123 abc st",
-                    "abcde",
-                    "new york",
-                    "12345",
-                    "computer science",
-                    "abc123@email.com",
-                    "1234567890"
-            );
-
-            Instructor instructor = new Instructor(instructorRequestDto);
-            course.enrollInstructor(instructor);
-
-            assertNotNull(course.getInstructor());
-            assertTrue(instructor.getEmail() == course.getInstructor().getEmail());
-
-            course.dropInstructor(instructor);
-            assertNull(course.getInstructor());
-        }
-
+        
         @Nested
         @DisplayName("Fail cases")
         class FailCases {
@@ -363,125 +367,125 @@ class CourseTest {
                         assertEquals("Instructor has been already enrolled.", e.getMessage());
                     }
                 }
+            }
+
+            @Nested
+            @DisplayName("Drop")
+            class Drop {
+                @Nested
+                @DisplayName("Student drop")
+                class StudentDrop {
+                    @Test
+                    @DisplayName("When student is not in list")
+                    void fail1() throws FileNotFoundException {
+                        CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
+                        Course course = new Course(requestDto);
+
+                        assertNull(course.getId());
+                        assertEquals(courseName, course.getCourseName());
+                        assertEquals(capacity, course.getCapacity());
+                        assertEquals(description, course.getDescription());
+
+                        StudentRequestDto studentRequestDto = new StudentRequestDto(
+                                "MyFirstnameOne",
+                                "MyLastnameOne",
+                                "123 abc st",
+                                "abcde",
+                                "new york",
+                                "12345",
+                                "computer science",
+                                "abc123@email.com",
+                                "1234567890"
+                        );
+
+                        Student student = new Student(studentRequestDto);
+
+                        Exception e = assertThrows(IllegalArgumentException.class, () -> {
+                            course.dropStudent(student);
+                        });
+                        assertEquals("Student is not in class roster.", e.getMessage());
+                    }
+                }
 
                 @Nested
-                @DisplayName("Drop")
-                class Drop {
-                    @Nested
-                    @DisplayName("Student drop")
-                    class StudentDrop {
-                        @Test
-                        @DisplayName("When student is not in list")
-                        void fail1() throws FileNotFoundException {
-                            CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
-                            Course course = new Course(requestDto);
+                @DisplayName("Instructor drop")
+                class InstructorDrop {
+                    @Test
+                    @DisplayName("When Instructor is not in class")
+                    void fail1() throws FileNotFoundException {
+                        CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
+                        Course course = new Course(requestDto);
 
-                            assertNull(course.getId());
-                            assertEquals(courseName, course.getCourseName());
-                            assertEquals(capacity, course.getCapacity());
-                            assertEquals(description, course.getDescription());
+                        assertNull(course.getId());
+                        assertEquals(courseName, course.getCourseName());
+                        assertEquals(capacity, course.getCapacity());
+                        assertEquals(description, course.getDescription());
 
-                            StudentRequestDto studentRequestDto = new StudentRequestDto(
-                                    "MyFirstnameOne",
-                                    "MyLastnameOne",
-                                    "123 abc st",
-                                    "abcde",
-                                    "new york",
-                                    "12345",
-                                    "computer science",
-                                    "abc123@email.com",
-                                    "1234567890"
-                            );
+                        InstructorRequestDto instructorRequestDto = new InstructorRequestDto(
+                                "MyFirstnameOne",
+                                "MyLastnameOne",
+                                "123 abc st",
+                                "abcde",
+                                "new york",
+                                "12345",
+                                "computer science",
+                                "abc123@email.com",
+                                "1234567890"
+                        );
 
-                            Student student = new Student(studentRequestDto);
+                        Instructor instructor = new Instructor(instructorRequestDto);
 
-                            Exception e = assertThrows(IllegalArgumentException.class, () -> {
-                                course.dropStudent(student);
-                            });
-                            assertEquals("Student is not in class roster.", e.getMessage());
-                        }
+                        Exception e = assertThrows(IllegalArgumentException.class, () -> {
+                            course.dropInstructor(instructor);
+                        });
+                        assertEquals("Instructor is not in class.", e.getMessage());
                     }
 
-                    @Nested
-                    @DisplayName("Instructor drop")
-                    class InstructorDrop {
-                        @Test
-                        @DisplayName("When Instructor is not in class")
-                        void fail1() throws FileNotFoundException {
-                            CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
-                            Course course = new Course(requestDto);
+                    @Test
+                    @DisplayName("When Instructor to drop is different")
+                    void fail2() throws FileNotFoundException {
+                        CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
+                        Course course = new Course(requestDto);
 
-                            assertNull(course.getId());
-                            assertEquals(courseName, course.getCourseName());
-                            assertEquals(capacity, course.getCapacity());
-                            assertEquals(description, course.getDescription());
+                        assertNull(course.getId());
+                        assertEquals(courseName, course.getCourseName());
+                        assertEquals(capacity, course.getCapacity());
+                        assertEquals(description, course.getDescription());
 
-                            InstructorRequestDto instructorRequestDto = new InstructorRequestDto(
-                                    "MyFirstnameOne",
-                                    "MyLastnameOne",
-                                    "123 abc st",
-                                    "abcde",
-                                    "new york",
-                                    "12345",
-                                    "computer science",
-                                    "abc123@email.com",
-                                    "1234567890"
-                            );
+                        InstructorRequestDto instructorRequestDto1 = new InstructorRequestDto(
+                                "MyFirstnameOne",
+                                "MyLastnameOne",
+                                "123 abc st",
+                                "abcde",
+                                "new york",
+                                "12345",
+                                "computer science",
+                                "abc123@email.com",
+                                "1234567890"
+                        );
 
-                            Instructor instructor = new Instructor(instructorRequestDto);
-
-                            Exception e = assertThrows(IllegalArgumentException.class, () -> {
-                                course.dropInstructor(instructor);
-                            });
-                            assertEquals("Instructor is not in class.", e.getMessage());
-                        }
-
-                        @Test
-                        @DisplayName("When Instructor to drop is different")
-                        void fail2() throws FileNotFoundException {
-                            CourseRequestDto requestDto = new CourseRequestDto(courseName, capacity, description);
-                            Course course = new Course(requestDto);
-
-                            assertNull(course.getId());
-                            assertEquals(courseName, course.getCourseName());
-                            assertEquals(capacity, course.getCapacity());
-                            assertEquals(description, course.getDescription());
-
-                            InstructorRequestDto instructorRequestDto1 = new InstructorRequestDto(
-                                    "MyFirstnameOne",
-                                    "MyLastnameOne",
-                                    "123 abc st",
-                                    "abcde",
-                                    "new york",
-                                    "12345",
-                                    "computer science",
-                                    "abc123@email.com",
-                                    "1234567890"
-                            );
-
-                            Instructor instructor1 = new Instructor(instructorRequestDto1);
-                            course.enrollInstructor(instructor1);
+                        Instructor instructor1 = new Instructor(instructorRequestDto1);
+                        course.enrollInstructor(instructor1);
 
 
-                            InstructorRequestDto instructorRequestDto2 = new InstructorRequestDto(
-                                    "MyFirstnameTwo",
-                                    "MyLastnameTwo",
-                                    "123 def st",
-                                    "edcba",
-                                    "new york",
-                                    "54321",
-                                    "computer engineering",
-                                    "def123@email.com",
-                                    "9876543210"
-                            );
+                        InstructorRequestDto instructorRequestDto2 = new InstructorRequestDto(
+                                "MyFirstnameTwo",
+                                "MyLastnameTwo",
+                                "123 def st",
+                                "edcba",
+                                "new york",
+                                "54321",
+                                "computer engineering",
+                                "def123@email.com",
+                                "9876543210"
+                        );
 
-                            Instructor instructor2 = new Instructor(instructorRequestDto2);
+                        Instructor instructor2 = new Instructor(instructorRequestDto2);
 
-                            Exception e = assertThrows(IllegalArgumentException.class, () -> {
-                                course.dropInstructor(instructor2);
-                            });
-                            assertEquals("Instructor does not match.", e.getMessage());
-                        }
+                        Exception e = assertThrows(IllegalArgumentException.class, () -> {
+                            course.dropInstructor(instructor2);
+                        });
+                        assertEquals("Instructor does not match.", e.getMessage());
                     }
                 }
             }
