@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class TestDataRunner implements ApplicationRunner {
 

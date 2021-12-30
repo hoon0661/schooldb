@@ -38,6 +38,7 @@ public class InstructorService {
 
     public Instructor createInstructor(InstructorRequestDto requestDto) throws FileNotFoundException {
         Instructor instructor = new Instructor(requestDto);
+        String email = requestDto.getEmail();
         return instructorRepository.save(instructor);
     }
 
