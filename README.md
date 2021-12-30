@@ -204,3 +204,6 @@ This project is to utilize my knowledge of Spring MVC & JPA & data entity relati
 | `email`      | `String` | must include @ |
 | `phone`      | `String` | must be 10 digits, cannot be mixture of number and other characters / non digits only |
 | `capacity`      | `int` | must be greater than 0 |
+
+## Lesson Learned
+- Deleteing a student or instructor directly from the database is not valid. Since both entities are associated with course, first I had to remove any student or instructor from course and then delete itself.   
