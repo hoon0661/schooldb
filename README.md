@@ -1,6 +1,6 @@
 
 # School Database API
-This project is to utilize my knowledge in Spring MVC & JPA & data entity relationships to create a REST API for a simple school database management.
+This project is to utilize my knowledge of Spring MVC & JPA & data entity relationships to create a REST API for a simple school database management.
  
 
 
