@@ -193,7 +193,7 @@ This project is to utilize my knowledge of Spring MVC & JPA & data entity relati
 
 ## Input Validation
 
-#### All inputs must be not null nor empty. If any input doesn't meet its validation, IllegalArgumentException is thrown with its correspoinding message.
+#### All inputs must be not null nor empty. If any input doesn't meet its validation, IllegalArgumentException is thrown with its corresponding message.
 
 | Parameter | Type     | validation                       |
 | :-------- | :------- | :-------------------------------- |
