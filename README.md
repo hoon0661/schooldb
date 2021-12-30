@@ -31,7 +31,7 @@ This project is to utilize my knowledge of Spring MVC & JPA & data entity relati
 - Entity Relationship Diagram:
 ![App Screenshot](https://github.com/hoon0661/schooldb/blob/main/schooldbERD.png?raw=true)
 
-- Please use this as a prefix of all API endpoints
+- Please use this as a prefix for all API endpoints
 
 ```http
   http://schooldb.hoonkim.link/api
