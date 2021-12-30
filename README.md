@@ -206,4 +206,4 @@ This project is to utilize my knowledge of Spring MVC & JPA & data entity relati
 | `capacity`      | `int` | must be greater than 0 |
 
 ## Lesson Learned
-- Deleteing a student or instructor directly from the database is not valid. Since both entities are associated with course, first I had to remove any student or instructor from course and then delete itself.   
+- Deleteing a student or instructor directly from the database is not valid. Since both entities are associated with course, first I had to remove any student or instructor from course and then delete itself using @Transactional annotation.   
